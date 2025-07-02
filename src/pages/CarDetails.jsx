@@ -4,6 +4,7 @@ import api from "../utils/api";
 import toast from "react-hot-toast";
 import { auth } from "../auth";
 import DocumentTitle from "../hooks/DocumentTitle";
+import { ArrowLeft } from "lucide-react"; // Add this if you have lucide-react installed
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -75,6 +76,14 @@ const CarDetails = () => {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 mt-14">
       <DocumentTitle title="Car Rental System | Car Details"/>
+      {/* Back Button */}
+      <button
+        className="flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-semibold hover:bg-red-100 hover:text-red-700 transition-colors duration-200"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft size={18} />
+        Back
+      </button>
       <div className="bg-base-100 rounded shadow p-6 flex flex-col md:flex-row gap-6">
         <img
           src={car.imageUrl}
@@ -102,7 +111,7 @@ const CarDetails = () => {
             <p className="text-gray-700">{car.description}</p>
           </div>
           <button
-            className="btn btn-primary"
+            className="btn flex items-center justify-center px-5 py-2 rounded-full bg-red-700 text-white font-semibold shadow-lg hover:bg-red-800 transition-colors duration-200"
             disabled={!car.available}
             onClick={() => setShowModal(true)}
           >
@@ -148,7 +157,7 @@ const CarDetails = () => {
                 Cancel
               </button>
               <button
-                className="btn btn-primary"
+                className="btn flex items-center justify-center px-5 py-2 rounded-full bg-red-700 text-white font-semibold shadow-lg hover:bg-red-800 transition-colors duration-200"
                 onClick={handleBooking}
                 disabled={bookingLoading}
               >

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCarSide } from "react-icons/fa";
 import DocumentTitle from "../hooks/DocumentTitle";
 
 const initialForm = {
@@ -93,23 +93,28 @@ const MyCars = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-10">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <DocumentTitle title="Car Rental System | My Cars"/>
-        <h2 className="text-4xl font-extrabold mb-8 text-center text-primary drop-shadow-lg">
-          My Cars
-        </h2>
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-red-600 to-indigo-500 text-white shadow-lg">
+            <FaCarSide className="text-3xl" />
+          </span>
+          <h2 className="text-4xl font-extrabold text-gray-800 tracking-tight drop-shadow-lg">
+            My Cars
+          </h2>
+        </div>
         {loading ? (
           <div className="text-center py-10">Loading...</div>
         ) : cars.length === 0 ? (
-          <div className="text-center bg-white/70 rounded-xl shadow-lg p-8">
+          <div className="text-center bg-white/80 rounded-2xl shadow-xl p-10">
             <p className="text-lg font-semibold mb-2">No cars added yet.</p>
             <a
               href="/add-car"
-              className="inline-block btn btn-primary mt-2 shadow-md"
+              className="inline-block px-6 py-2 rounded-full bg-gradient-to-r from-red-600 to-indigo-500 text-white font-bold shadow-md hover:from-red-700 hover:to-indigo-600 transition-all"
             >
               Add a car
             </a>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl shadow-2xl bg-white/70 backdrop-blur-md">
+          <div className="overflow-x-auto rounded-2xl shadow-2xl bg-white/80 backdrop-blur-md">
             <table className="table w-full">
               <thead>
                 <tr className="text-primary text-lg">
@@ -124,7 +129,7 @@ const MyCars = () => {
               </thead>
               <tbody>
                 {cars.map(car => (
-                  <tr key={car._id} className="hover:bg-blue-50/60 transition">
+                  <tr key={car._id} className="hover:bg-indigo-50/60 transition">
                     <td>
                       <img
                         src={car.imageUrl}
@@ -136,7 +141,7 @@ const MyCars = () => {
                     <td className="text-primary font-bold">${car.dailyPrice}</td>
                     <td>{car.bookingCount || 0}</td>
                     <td>
-                      <span className={`badge px-3 py-1 text-sm ${car.available ? "bg-red-100 text-red-700" : "bg-red-100 text-red-700"}`}>
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${car.available ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-500"}`}>
                         {car.available ? "Yes" : "No"}
                       </span>
                     </td>
@@ -145,14 +150,14 @@ const MyCars = () => {
                     </td>
                     <td className="space-x-2">
                       <button
-                        className="btn btn-xs btn-info shadow"
+                        className="inline-flex items-center justify-center btn btn-xs rounded-full bg-indigo-500 text-white hover:bg-indigo-600 shadow transition-all"
                         onClick={() => openEditModal(car)}
                         title="Edit"
                       >
                         <FaEdit />
                       </button>
                       <button
-                        className="btn btn-xs btn-error shadow"
+                        className="inline-flex items-center justify-center btn btn-xs rounded-full bg-red-600 text-white hover:bg-red-700 shadow transition-all"
                         onClick={() => openDeleteModal(car)}
                         title="Delete"
                       >
@@ -171,14 +176,17 @@ const MyCars = () => {
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 transition-all">
             <form
               onSubmit={handleEditSubmit}
-              className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-lg space-y-4 relative animate-fade-in"
+              className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-lg space-y-4 relative animate-fade-in"
             >
               <button
                 type="button"
                 className="absolute top-2 right-3 text-2xl text-gray-400 hover:text-red-500"
                 onClick={() => setShowEditModal(false)}
+                aria-label="Close"
               >×</button>
-              <h3 className="text-2xl font-bold mb-2 text-primary">Update Car</h3>
+              <h3 className="text-2xl font-bold mb-2 text-indigo-600 flex items-center gap-2">
+                <FaEdit /> Update Car
+              </h3>
               <input
                 name="model"
                 value={editForm.model}
@@ -245,7 +253,7 @@ const MyCars = () => {
               />
               <button
                 type="submit"
-                className="btn btn-primary w-full mt-2 shadow-lg"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-red-500 text-white font-bold text-lg shadow-lg hover:from-indigo-600 hover:to-red-600 transition-all duration-200 mt-2 flex items-center justify-center gap-2"
               >
                 Save Changes
               </button>
@@ -256,8 +264,10 @@ const MyCars = () => {
         {/* --- Delete Modal --- */}
         {showDeleteModal && (
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 transition-all">
-            <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center animate-fade-in">
-              <h3 className="text-2xl font-bold mb-4 text-red-600">Delete Car</h3>
+            <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-8 w-full max-w-sm text-center animate-fade-in">
+              <h3 className="text-2xl font-bold mb-4 text-red-600 flex items-center gap-2 justify-center">
+                <FaTrash /> Delete Car
+              </h3>
               <p>Are you sure you want to delete <b>{deletingCar.model}</b>?</p>
               <div className="flex justify-center gap-4 mt-6">
                 <button
