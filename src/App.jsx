@@ -17,6 +17,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import UpdateCar from './pages/UpdateCar';
+import About from './pages/About';
 
 function Layout({ user, onLogout }) {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route element={<Layout user={user} onLogout={handleLogout} />}>
             <Route path="/" element={<Home />} />
             <Route path="/available-cars" element={<AvailableCars />} />
+            <Route path='/about' element={<About />} />
             <Route path="/add-car" element={
               <PrivateRoute>
                 <AddCar />
